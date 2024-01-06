@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+JUNITPATH="/libs/junit5.jar"
+cp /libs/junit5.jar ../
+
+if [[ ! -f FrontendDeveloperTests.java ]] && [[ ! -f BackendDeveloperTests.java ]]; then
+    echo
+    echo "Submission Failed Check: no FrontendDeveloperTests.java or BackendDeveloperTests.java found"
+    exit 1
+fi
+
+if [[ ! -f Makefile ]]; then
+	echo
+	echo "Submission Failed Check: no Makefile found; if you have submitted (pushed) 5 or more JUnit test methods then your submission is complete for the mid-week deadline"
+	exit 1
+fi
+
+if ! make runBDTests && ! make runFDTest; then
+	echo
+	echo "Submission Failed Check: 'make runBDTests' and 'make runFDTests' fails, but one of them should succeed; if you have submitted (pushed) 5 or more JUnit test methods then your submission is complete for the mid-week deadline"
+	exit 1
+fi
+
+if [[ ! -f log ]]; then
+	echo
+	echo "Submission Failed Check: no log found; if you have submitted (pushed) 5 or more JUnit test methods then your submission is complete for the mid-week deadline"
+	exit 1
+fi
+
+echo
+echo "Submission Passed Basic Scan"
+exit 0
